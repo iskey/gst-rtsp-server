@@ -43,6 +43,16 @@ typedef struct _GstRTSPSessionMedia GstRTSPSessionMedia;
 
 #include "rtsp-media.h"
 
+#define GST_TYPE_RTSP_SESSION_MEDIA (gst_rtsp_session_media_get_type ())
+GType  gst_rtsp_session_media_get_type  (void) G_GNUC_CONST;
+GstRTSPSessionMedia *  gst_rtsp_session_media_copy (const GstRTSPSessionMedia *);
+void  gst_rtsp_session_media_free (GstRTSPSessionMedia *);
+
+#define GST_TYPE_RTSP_SESSION_STREAM (gst_rtsp_session_stream_get_type ())
+GType  gst_rtsp_session_stream_get_type  (void) G_GNUC_CONST;
+GstRTSPSessionStream *  gst_rtsp_session_stream_copy (const GstRTSPSessionStream *);
+void  gst_rtsp_session_stream_free (GstRTSPSessionStream *);
+
 /**
  * GstRTSPSessionStream:
  * @trans: the media transport

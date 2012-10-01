@@ -43,6 +43,12 @@ static void gst_rtsp_session_finalize (GObject * obj);
 
 G_DEFINE_TYPE (GstRTSPSession, gst_rtsp_session, G_TYPE_OBJECT);
 
+G_DEFINE_BOXED_TYPE (GstRTSPSessionMedia, gst_rtsp_session_media,
+    gst_rtsp_session_media_copy, gst_rtsp_session_media_free);
+
+G_DEFINE_BOXED_TYPE (GstRTSPSessionStream, gst_rtsp_session_stream,
+    gst_rtsp_session_stream_copy, gst_rtsp_session_stream_free);
+
 static void
 gst_rtsp_session_class_init (GstRTSPSessionClass * klass)
 {
@@ -76,8 +82,16 @@ gst_rtsp_session_init (GstRTSPSession * session)
   gst_rtsp_session_touch (session);
 }
 
-static void
-gst_rtsp_session_free_stream (GstRTSPSessionStream * stream)
+GstRTSPSessionStream *
+gst_rtsp_session_stream_copy (const GstRTSPSessionStream * stream)
+{
+  g_critical ("gst_rtsp_session_stream_copy not implemented");
+
+  return NULL;
+}
+
+void
+gst_rtsp_session_stream_free (GstRTSPSessionStream * stream)
 {
   GST_INFO ("free session stream %p", stream);
 
@@ -90,9 +104,16 @@ gst_rtsp_session_free_stream (GstRTSPSessionStream * stream)
   g_free (stream);
 }
 
-static void
-gst_rtsp_session_free_media (GstRTSPSessionMedia * media,
-    GstRTSPSession * session)
+GstRTSPSessionMedia *
+gst_rtsp_session_media_copy (const GstRTSPSessionMedia * media)
+{
+  g_critical ("gst_rtsp_session_media_copy not implemented");
+
+  return NULL;
+}
+
+void
+gst_rtsp_session_media_free (GstRTSPSessionMedia * media)
 {
   guint size, i;
 
@@ -108,7 +129,7 @@ gst_rtsp_session_free_media (GstRTSPSessionMedia * media,
     stream = g_array_index (media->streams, GstRTSPSessionStream *, i);
 
     if (stream)
-      gst_rtsp_session_free_stream (stream);
+      gst_rtsp_session_stream_free (stream);
   }
   g_array_free (media->streams, TRUE);
 
@@ -131,8 +152,7 @@ gst_rtsp_session_finalize (GObject * obj)
   GST_INFO ("finalize session %p", session);
 
   /* free all media */
-  g_list_foreach (session->medias, (GFunc) gst_rtsp_session_free_media,
-      session);
+  g_list_foreach (session->medias, (GFunc) gst_rtsp_session_media_free, NULL);
   g_list_free (session->medias);
 
   /* free session id */
@@ -249,7 +269,7 @@ gst_rtsp_session_release_media (GstRTSPSession * sess,
     if (find == media) {
       sess->medias = g_list_delete_link (sess->medias, walk);
 
-      gst_rtsp_session_free_media (find, sess);
+      gst_rtsp_session_media_free (find);
       break;
     }
     walk = next;

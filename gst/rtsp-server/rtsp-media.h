@@ -36,6 +36,10 @@ G_BEGIN_DECLS
 #define GST_RTSP_MEDIA_CAST(obj)         ((GstRTSPMedia*)(obj))
 #define GST_RTSP_MEDIA_CLASS_CAST(klass) ((GstRTSPMediaClass*)(klass))
 
+
+#define GST_TYPE_RTSP_MEDIA_STREAM (gst_rtsp_media_stream_get_type ())
+GType  gst_rtsp_media_stream_get_type  (void) G_GNUC_CONST;
+
 typedef struct _GstRTSPMediaStream GstRTSPMediaStream;
 typedef struct _GstRTSPMedia GstRTSPMedia;
 typedef struct _GstRTSPMediaClass GstRTSPMediaClass;
@@ -301,6 +305,8 @@ GstRTSPMediaStream *  gst_rtsp_media_get_stream       (GstRTSPMedia *media, guin
 gboolean              gst_rtsp_media_seek             (GstRTSPMedia *media, GstRTSPTimeRange *range);
 gchar *               gst_rtsp_media_get_range_string (GstRTSPMedia *media, gboolean play);
 
+GstRTSPMediaStream *  gst_rtsp_media_stream_copy      (const GstRTSPMediaStream * stream);
+void                  gst_rtsp_media_stream_free      (GstRTSPMediaStream * stream);
 GstFlowReturn         gst_rtsp_media_stream_rtp       (GstRTSPMediaStream *stream, GstBuffer *buffer);
 GstFlowReturn         gst_rtsp_media_stream_rtcp      (GstRTSPMediaStream *stream, GstBuffer *buffer);
 

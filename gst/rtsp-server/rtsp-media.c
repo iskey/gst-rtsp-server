@@ -78,6 +78,9 @@ static guint gst_rtsp_media_signals[SIGNAL_LAST] = { 0 };
 
 G_DEFINE_TYPE (GstRTSPMedia, gst_rtsp_media, G_TYPE_OBJECT);
 
+G_DEFINE_BOXED_TYPE (GstRTSPMediaStream, gst_rtsp_media_stream,
+    gst_rtsp_media_stream_copy, gst_rtsp_media_stream_free);
+
 static void
 gst_rtsp_media_class_init (GstRTSPMediaClass * klass)
 {
@@ -176,7 +179,14 @@ gst_rtsp_media_trans_cleanup (GstRTSPMediaTrans * trans)
   }
 }
 
-static void
+GstRTSPMediaStream *
+gst_rtsp_media_stream_copy (const GstRTSPMediaStream * stream)
+{
+  g_critical ("gst_rtsp_media_stream_free is not implemented");
+  return NULL;
+}
+
+void
 gst_rtsp_media_stream_free (GstRTSPMediaStream * stream)
 {
   if (stream->session)
