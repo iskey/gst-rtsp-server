@@ -80,7 +80,7 @@ gst_rtsp_server_class_init (GstRTSPServerClass * klass)
   gobject_class->finalize = gst_rtsp_server_finalize;
 
   /**
-   * GstRTSPServer::address
+   * GstRTSPServer::address:
    *
    * The address of the server. This is the address where the server will
    * listen on.
@@ -90,7 +90,7 @@ gst_rtsp_server_class_init (GstRTSPServerClass * klass)
           "The address the server uses to listen on", DEFAULT_ADDRESS,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * GstRTSPServer::service
+   * GstRTSPServer::service:
    *
    * The service of the server. This is either a string with the service name or
    * a port number (as a string) the server will listen on.
@@ -100,7 +100,7 @@ gst_rtsp_server_class_init (GstRTSPServerClass * klass)
           "The service or port number the server uses to listen on",
           DEFAULT_SERVICE, G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * GstRTSPServer::backlog
+   * GstRTSPServer::backlog:
    *
    * The backlog argument defines the maximum length to which the queue of
    * pending connections for the server may grow. If a connection request arrives
@@ -114,7 +114,7 @@ gst_rtsp_server_class_init (GstRTSPServerClass * klass)
           "of pending connections may grow", 0, G_MAXINT, DEFAULT_BACKLOG,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * GstRTSPServer::session-pool
+   * GstRTSPServer::session-pool:
    *
    * The session pool of the server. By default each server has a separate
    * session pool but sessions can be shared between servers by setting the same
@@ -126,7 +126,7 @@ gst_rtsp_server_class_init (GstRTSPServerClass * klass)
           GST_TYPE_RTSP_SESSION_POOL,
           G_PARAM_READWRITE | G_PARAM_STATIC_STRINGS));
   /**
-   * GstRTSPServer::media-mapping
+   * GstRTSPServer::media-mapping:
    *
    * The media mapping to use for this server. By default the server has no
    * media mapping and thus cannot map urls to media streams.
@@ -358,7 +358,7 @@ gst_rtsp_server_set_session_pool (GstRTSPServer * server,
  *
  * Get the #GstRTSPSessionPool used as the session pool of @server.
  *
- * Returns: the #GstRTSPSessionPool used for sessions. g_object_unref() after
+ * Returns: (transfer full): the #GstRTSPSessionPool used for sessions. g_object_unref() after
  * usage.
  */
 GstRTSPSessionPool *
@@ -410,7 +410,7 @@ gst_rtsp_server_set_media_mapping (GstRTSPServer * server,
  *
  * Get the #GstRTSPMediaMapping used as the media mapping of @server.
  *
- * Returns: the #GstRTSPMediaMapping of @server. g_object_unref() after
+ * Returns: (transfer full): the #GstRTSPMediaMapping of @server. g_object_unref() after
  * usage.
  */
 GstRTSPMediaMapping *
@@ -461,7 +461,7 @@ gst_rtsp_server_set_auth (GstRTSPServer * server, GstRTSPAuth * auth)
  *
  * Get the #GstRTSPAuth used as the authentication manager of @server.
  *
- * Returns: the #GstRTSPAuth of @server. g_object_unref() after
+ * Returns: (transfer full): the #GstRTSPAuth of @server. g_object_unref() after
  * usage.
  */
 GstRTSPAuth *
@@ -542,7 +542,7 @@ gst_rtsp_server_set_property (GObject * object, guint propid,
  * Create a #GSocket for @server. The socket will listen on the
  * configured service.
  *
- * Returns: the #GSocket for @server or NULL when an error occured.
+ * Returns: (transfer full): the #GSocket for @server or NULL when an error occured.
  */
 GSocket *
 gst_rtsp_server_create_socket (GstRTSPServer * server,
@@ -948,8 +948,7 @@ no_socket:
 /**
  * gst_rtsp_server_attach:
  * @server: a #GstRTSPServer
- * @context: a #GMainContext
- * @error: a #GError
+ * @context: (allow-none): a #GMainContext
  *
  * Attaches @server to @context. When the mainloop for @context is run, the
  * server will be dispatched. When @context is NULL, the default context will be
