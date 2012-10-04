@@ -92,16 +92,7 @@ AG_GST_DOCBOOK_CHECK
 GTK_DOC_CHECK([1.3])
 
 dnl Check for Vala
-AC_ARG_ENABLE([vala],
-  AC_HELP_STRING([--enable-vala],[enable Vala bindings (default=yes)]),
-  [case "${enableval}" in
-    yes) enable_vala=yes ;;
-    no)  enable_vala=no ;;
-    *) AC_MSG_ERROR(bad value ${enableval} for --enable-vala) ;;
-   esac
-  ],
-  [enable_vala=yes]) dnl Default value
-AM_CONDITIONAL(WITH_VALA, [test "x$enable_vala" = "xyes"])
+VAPIGEN_CHECK([0.18])
 
 dnl *** checks for libraries ***
 
@@ -275,7 +266,7 @@ Configuration
 	Source code location       : ${srcdir}
 	Prefix                     : ${prefix}
 	Compiler                   : ${CC}
-	Vala bindings              : ${enable_vala}
+	vapigen                    : ${VAPIGEN}
 
 gst-rtsp-server configured. Type 'make' to build.
 "
